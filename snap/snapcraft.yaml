@@ -19,7 +19,7 @@ description: 'count things'
 
 apps:
   flutter-app:
-    command: usr/bin/flutter-app
+    command: bin/myapp
     extensions: [gnome]
 #    desktop: usr/share/applications/org.gnome.Taquin.desktop
 
@@ -55,9 +55,9 @@ parts:
       flutter doctor
       flutter pub get
       flutter build linux
-      #mkdir -p $CRAFT_PART_INSTALL/bin/
-      #cp -r build/* $CRAFT_PART_INSTALL/bin/
+      mkdir -p $CRAFT_PART_INSTALL/bin/
+      cp -r build/* $CRAFT_PART_INSTALL/bin/
     build-environment: 
       - PATH: /root/parts/flutter-git/install/usr/libexec/flutter/bin/:$PATH
-    organize:
-      snap/flutter-app/current/usr: usr
+    #organize:
+    #  snap/flutter-app/current/usr: usr
