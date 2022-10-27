@@ -56,8 +56,10 @@ parts:
       flutter pub get
       flutter build linux
       mkdir -p $CRAFT_PART_INSTALL/bin/
-      cp -r build/* $CRAFT_PART_INSTALL/bin/
+      cp -r build/linux/x64/release/bundle/myapp $CRAFT_PART_INSTALL/bin/
     build-environment: 
       - PATH: /root/parts/flutter-git/install/usr/libexec/flutter/bin/:$PATH
+    stage-packages:
+      - libgtk-3-dev
     #organize:
     #  snap/flutter-app/current/usr: usr
