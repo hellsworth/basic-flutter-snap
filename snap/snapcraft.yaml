@@ -1,0 +1,63 @@
+name: flutter-app
+grade: stable # must be 'stable' to release into candidate/stable channels
+confinement: strict
+base: core22
+version: '0.1'
+summary: 'Barebones Flutter app'
+description: 'count things'
+
+#slots:
+#  # for GtkApplication registration
+#  gnome-taquin:
+#    interface: dbus
+#    bus: session
+#    name: org.gnome.Taquin
+
+#layout:
+# /usr/share/gnome-taquin:
+#   symlink: $SNAP/usr/share/gnome-taquin
+
+apps:
+  flutter-app:
+    command: usr/bin/flutter-app
+    extensions: [gnome]
+#    desktop: usr/share/applications/org.gnome.Taquin.desktop
+
+parts:
+  flutter-git:
+    source: https://github.com/flutter/flutter.git
+    source-branch: master
+    plugin: nil
+    override-build: |
+      mkdir -p $CRAFT_PART_INSTALL/usr/bin
+      mkdir -p $CRAFT_PART_INSTALL/usr/libexec
+      cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
+      ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
+    build-packages:
+      - clang
+      - cmake
+      - curl
+      - ninja-build
+      - pkg-config
+      - unzip
+      - xz-utils
+      - zip
+    prime:
+      - -*
+
+  flutter-app:
+    after: [flutter-git]
+    plugin: nil
+    source: .
+    override-build: |
+      set -eux
+      flutter upgrade
+      flutter doctor
+      flutter pub get
+      flutter build
+      #mkdir -p $CRAFT_PART_INSTALL/bin/
+      #cp -r build/* $CRAFT_PART_INSTALL/bin/
+    build-environment: 
+      - PATH: /root/parts/flutter-git/install/usr/libexec/flutter/bin/:$PATH
+    organize:
+      snap/flutter-app/current/usr: usr
