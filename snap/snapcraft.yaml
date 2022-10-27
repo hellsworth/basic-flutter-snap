@@ -54,7 +54,7 @@ parts:
       flutter upgrade
       flutter doctor
       flutter pub get
-      flutter build
+      flutter build linux
       #mkdir -p $CRAFT_PART_INSTALL/bin/
       #cp -r build/* $CRAFT_PART_INSTALL/bin/
     build-environment: 
