@@ -13,37 +13,7 @@ apps:
     extensions: [gnome]
 
 parts:
-  flutter-git:
-    source: https://github.com/flutter/flutter.git
-    source-branch: master
-    plugin: nil
-    override-build: |
-      mkdir -p $CRAFT_PART_INSTALL/usr/bin
-      mkdir -p $CRAFT_PART_INSTALL/usr/libexec
-      cp -r $CRAFT_PART_SRC $CRAFT_PART_INSTALL/usr/libexec/flutter
-      ln -s $CRAFT_PART_INSTALL/usr/libexec/flutter/bin/flutter $CRAFT_PART_INSTALL/usr/bin/flutter
-    build-packages:
-      - clang
-      - cmake
-      - curl
-      - ninja-build
-      - pkg-config
-      - unzip
-      - xz-utils
-      - zip
-    prime:
-      - -*
-
   flutter-app:
-    after: [flutter-git]
-    plugin: nil
+    plugin: flutter
     source: .
-    override-build: |
-      set -eux
-      flutter upgrade
-      flutter precache --linux
-      flutter doctor
-      flutter pub get
-      flutter build linux
-      mkdir -p $CRAFT_PART_INSTALL/bin/
-      cp -r build/linux/*/release/bundle/* $CRAFT_PART_INSTALL/bin/
+    #flutter-branch: master
